@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
 })
 
 app.use(cors({
-    origin:'https://mern-stack-blogging-t2mx-git-main-dale-harshithas-projects.vercel.app',
+    origin:'https://mern-stack-blogging-git-main-dale-harshithas-projects.vercel.app',
     credentials:true
 }))
 
