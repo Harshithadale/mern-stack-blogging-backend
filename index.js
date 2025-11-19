@@ -13,7 +13,7 @@ require('dotenv').config()
 const app=express()
 
 // connect mongoose
-mongoose.connect(process.env.Mongo_URL)
+mongoose.connect(process.env.MONGO_URL)
 .then(res=>{
     console.log('Connected to MongoDB Sever')
 })
