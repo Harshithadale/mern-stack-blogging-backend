@@ -1,4 +1,3 @@
-// import express
 const express=require('express')
 const base64=require('base-64')
 const mongoose=require('mongoose')
@@ -8,11 +7,8 @@ const cors=require('cors')
 const blogRouter = require('./Routes/BlogRoutes')
 require('dotenv').config()
 
-
-// initialze express
 const app=express()
 
-// connect mongoose
 mongoose.connect(process.env.MONGO_URL)
 .then(res=>{
     console.log('Connected to MongoDB Sever')
@@ -21,38 +17,40 @@ mongoose.connect(process.env.MONGO_URL)
     console.log('Error occured',err)
 })
 
-app.use(cors({
-    origin:'https://mern-stack-blogging-git-main-dale-harshithas-projects.vercel.app',
-    credentials:true
-}))
+const allowedOrigins = [
+  "https://mern-stack-blogging.vercel.app",
+  "https://mern-stack-blogging-git-main-dale-harshithas-projects.vercel.app",
+  "http://localhost:3000"
+];
 
-// middleware
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS:", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json())
 
-
-
-
 app.use(session({
-  secret: 'your-secret-key', // Use a strong, unique secret in real apps
-  resave: false,             // Don't save session if nothing changed
-  saveUninitialized: false,  // Only save sessions that have meaningful data
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
   cookie: {
-    secure: false,           // Set to true if using HTTPS
-    httpOnly: true,          // Prevents client-side JS from accessing cookies
-    maxAge: 1000 * 60 * 60 * 24 // 1 day (in ms)
+    secure: false,
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24
   }
 }))
 
-
 app.use('/api',router)
-
 app.use('/api',blogRouter)
 
-
-
-
-
-// connect to port
-app.listen(3000,(req,res)=>{
+app.listen(3000,()=>{
     console.log('Server listening on port 3000')
 })
