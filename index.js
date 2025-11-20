@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URL)
 const allowedOrigins = [
   "https://mern-stack-blogging.vercel.app",
   "https://mern-stack-blogging-git-main-dale-harshithas-projects.vercel.app",
-  "http://localhost:5173"
+  "http://localhost:5173/"
 ];
 
 app.use(cors({
@@ -42,11 +42,13 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,
+    secure: true,          // REQUIRED on Render (HTTPS)
     httpOnly: true,
+    sameSite: "none",      // REQUIRED for cross-domain cookies
     maxAge: 1000 * 60 * 60 * 24
   }
-}))
+}));
+
 
 app.use('/api',router)
 app.use('/api',blogRouter)
