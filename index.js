@@ -38,13 +38,14 @@ app.use(cors({
 app.use(express.json())
 
 app.use(session({
-  secret: 'your-secret-key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  proxy: true,
   cookie: {
-    secure: true,          // REQUIRED on Render (HTTPS)
+    secure: process.env.NODE_ENV === "production",
     httpOnly: true,
-    sameSite: "none",      // REQUIRED for cross-domain cookies
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: 1000 * 60 * 60 * 24
   }
 }));
