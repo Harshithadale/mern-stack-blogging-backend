@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URL)
 const allowedOrigins = [
   "https://mern-stack-blogging.vercel.app",
   "https://mern-stack-blogging-git-main-dale-harshithas-projects.vercel.app",
-  "http://localhost:5173/"
+  "http://localhost:5173"
 ];
 
 app.use(cors({
